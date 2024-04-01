@@ -18,15 +18,23 @@ class DestinationAPI(APIView):
             return Response(data = serializer.data, status=status.HTTP_201_CREATED)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class destinationDetailsAPI(APIView):
+class DestinationDetailsAPI(APIView):
     def get(self,request,pk=None):
         obj = get_object_or_404(Destination, pk=pk)
         serializer = DestinationSerializers(obj)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
     def put(self, request, pk=None):
-        obj=get_object_or_404(Destination,pk=pk)
+        obj = get_object_or_404(Destination,pk=pk)
         serializer = DestinationSerializers(data=request.data, instance=obj)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_205_RESET_CONTENT)
+        return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    
+    def patch(self, request, pk=None):
+        obj = get_object_or_404(Destination, pk=pk)
+        serializer = DestinationSerializers(data=request.data, instance=obj, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data, status=status.HTTP_205_RESET_CONTENT)

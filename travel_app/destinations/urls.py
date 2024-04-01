@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import DestinationAPI,destinationDetailsAPI
+from .views import DestinationAPI,DestinationDetailsAPI
 
 urlpatterns = [
     path('travel/',DestinationAPI.as_view()),
-    path('travel/<int:pk>/',destinationDetailsAPI.as_view()),
+    path('travel/<int:pk>/',DestinationDetailsAPI.as_view()),
 ]
